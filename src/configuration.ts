@@ -1,12 +1,13 @@
 import { Configuration, App, ILifeCycle } from '@midwayjs/core';
 import * as koa from '@midwayjs/koa';
 import * as ws from '@midwayjs/ws';
+import * as orm from '@midwayjs/typeorm';
 import * as view from '@midwayjs/view-nunjucks';
 import path from 'path';
 import { WeatherErrorFilter } from './filter/weather.filter';
 
 @Configuration({
-  imports: [koa, view, ws],
+  imports: [koa, view, ws, orm],
   importConfigs: [path.join(__dirname, './config')],
 })
 

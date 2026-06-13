@@ -2,14 +2,13 @@
  * 项目接口定义
  */
 // import { IMidwayApplication, IMidwayContext } from '@midwayjs/core';
-import { Application, Context } from 'egg';
+import { Application, Context } from '@midwayjs/koa';
 
 // 扩展 Context 接口
 export interface ICustomContext extends Context {
   currentUser?: {
     id: number;
     username: string;
-    role: string;
   };
 }
 
@@ -20,12 +19,6 @@ export interface ICustomApplication extends Application { }
 export interface IUser {
   id: number;
   username: string;
-  email: string;
-  nickname?: string;
-  role: string;
-  createdAt: Date;
-  updatedAt: Date;
-  lastLoginAt?: Date;
 }
 
 // 分页结果接口

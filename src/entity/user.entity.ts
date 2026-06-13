@@ -1,31 +1,18 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-
-@Entity('users')
+import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+@Entity('users')  // 修改表名为 'users'，更符合用户表的语义
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ unique: true })
+  @Column('text')
   username!: string;
 
   @Column()
   password!: string;
 
-  @Column({ unique: true })
-  email?: string;
-
-  @Column({ nullable: true })
-  nickname?: string;
-
-  @Column({ default: 'user' }) // 默认为普通用户
-  role?: string;
-
-  @CreateDateColumn()
+  @Column({ name: 'created_at' })
   createdAt!: Date;
 
-  @UpdateDateColumn()
-  updatedAt?: Date;
-
-  @Column({ type: 'datetime', nullable: true })
-  lastLoginAt?: Date;
+  @Column({ name: 'last_login_at' })
+  lastLoginAt!: Date;
 }

@@ -18,19 +18,17 @@ export class UserService {
    */
   async createUser(userData: {
     username: string;
-    email: string;
     password: string;
-    nickname?: string;
   }): Promise<UserEntity> {
-    const { username, email, password, nickname } = userData;
+    const { username, password } = userData;
 
     // 检查用户是否已存在
     const existingUser = await this.userModel.findOne({
-      where: [{ username }, { email }],
+      where: { username },
     });
 
     if (existingUser) {
-      throw new Error('用户名或邮箱已存在');
+      throw new Error('用户名已存在');
     }
 
     // 加密密码
@@ -38,10 +36,8 @@ export class UserService {
 
     const user = new UserEntity();
     user.username = username;
-    user.email = email;
     user.password = hashedPassword;
-    user.nickname = nickname || username;
-    user.role = 'user'; // 默认为普通用户
+    user.createdAt = new Date();
 
     const savedUser = await this.userModel.save(user);
 

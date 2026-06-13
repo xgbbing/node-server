@@ -4,13 +4,6 @@ import { MidwayAppInfo, MidwayConfig } from '@midwayjs/core';
 export default (appInfo: MidwayAppInfo) => {
   const config = {} as MidwayConfig;
 
-  // 本地开发环境数据库配置（SQLite）
-  // config.sqlite = {
-  //   client: {
-  //     storage: path.join(process.cwd(), 'database', 'app.db'),
-  //   },
-  // };
-
   // 本地开发时的其他配置
   config.security = {
     csrf: {

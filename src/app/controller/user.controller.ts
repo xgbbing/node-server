@@ -19,13 +19,13 @@ export class UserController {
   @Post('/register')
   async register(@Body() body: any) {
     try {
-      const { username, password, email } = body;
+      const { username, password } = body;
 
       // 参数验证
-      if (!username || !password || !email) {
+      if (!username || !password) {
         return {
           code: RESPONSE_CODE.ERROR,
-          message: '用户名、密码和邮箱不能为空',
+          message: '用户名、密码不能为空',
         };
       }
 
@@ -33,7 +33,6 @@ export class UserController {
       const newUser = await this.userService.createUser({
         username,
         password,
-        email,
       });
 
       // 不返回密码字段

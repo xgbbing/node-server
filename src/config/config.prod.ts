@@ -5,10 +5,15 @@ export default (appInfo: MidwayAppInfo) => {
   const config = {} as MidwayConfig;
 
   // 生产环境数据库配置（SQLite）
-  // config.sqlite = {
-  //   client: {
-  //     storage: path.join('/data/myapp/database', 'app.db'),
-  //   },
+  // config.typeorm = {
+  //   dataSource: {
+  //     default: {
+  //       type: 'sqlite',
+  //       database: path.join('/data/myapp/database', 'app.db'),
+  //       synchronize: true, // 同步模式
+  //       logging: true, // 开启日志
+  //     }
+  //   }
   // };
 
   // 生产环境安全配置

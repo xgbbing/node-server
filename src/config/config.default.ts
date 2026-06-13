@@ -1,13 +1,22 @@
 import { MidwayAppInfo, MidwayConfig } from '@midwayjs/core';
+import path from 'path';
 
 export default (appInfo: MidwayAppInfo) => {
   const config = {} as MidwayConfig;
 
   config.keys = appInfo.name + '_1639994056460_8089';
 
+  // Koa 端口配置
+  config.koa = {
+    port: 7001,
+  };
+
   // 视图配置
   config.view = {
     defaultViewEngine: 'nunjucks',
+    rootDir: {
+      default: path.join(appInfo.baseDir, 'app/view'),
+    }
   };
 
   // 静态资源配置
@@ -44,12 +53,19 @@ export default (appInfo: MidwayAppInfo) => {
   // };
 
   // 数据库配置
-  // config.orm = {
-  //   type: 'sqlite',
-  //   database: './database.sqlite',
-  //   synchronize: true,
-  //   logging: true,
-  // };
+  config.typeorm = {
+    dataSource: {
+      default: {
+        type: 'sqlite',
+        database: path.join(__dirname, '../../database/users.db'),
+        synchronize: true, // 同步模式
+        logging: true, // 开启日志
+        entities: [
+          path.join(__dirname, '../entity/*{.ts,.js}'), // 使用绝对路径扫描实体
+        ]
+      }
+    }
+  };
 
   // Elasticsearch 配置
   // config.elasticsearch = {
