@@ -13,12 +13,6 @@ export default (appInfo: MidwayAppInfo): MidwayConfig => {
     //     default: path.join(appInfo.baseDir, './app/view'),
     //   }
     // },
-    security: {
-      csrf: {
-        enable: false, // 在API项目中通常禁用CSRF
-      },
-      domainWhiteList: ['http://localhost:7001', 'http://127.0.0.1:7001'],
-    },
     session: {
       key: 'Koa_SESS',
       maxAge: 24 * 3600 * 1000, // 1天
