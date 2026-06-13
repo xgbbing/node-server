@@ -8,7 +8,7 @@
     "mock-dev": "mwtsc --watch --run @midwayjs/mock/app.js",
     "dev": "npm run build && mwtsc --watch --run ./dist/bootstrap.js",
     "cli-build": "midway-bin build -c",
-    "build": "mwtsc --cleanOutDir",
+    "build": "mwtsc --cleanOutDir && node ./src/scripts/build.js",
     "start": "NODE_ENV=production node ./dist/bootstrap.js",
     "test": "cross-env NODE_ENV=test midway-bin test --ts",
     "cov": "cross-env NODE_ENV=test midway-bin cov --ts",
@@ -55,6 +55,7 @@
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "cross-env": "^7.0.3",
+    "esbuild": "^0.28.1",
     "eslint": "^8.0.0",
     "ts-node": "^10.0.0",
     "typescript": "^4.0.0"
