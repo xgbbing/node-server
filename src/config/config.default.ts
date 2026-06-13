@@ -38,7 +38,7 @@ export default (appInfo: MidwayAppInfo) => {
 
   // 会话配置
   // config.session = {
-  //   key: 'EGG_SESS',
+  //   key: 'Koa_SESS',
   //   maxAge: 24 * 3600 * 1000, // 1天
   //   httpOnly: true,
   //   encrypt: true,

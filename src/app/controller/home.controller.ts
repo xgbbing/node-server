@@ -12,7 +12,7 @@ export class HomeController {
     this.ctx.body = {
       message: '这是关于页面',
       features: [
-        '基于 Midway + Egg 框架',
+        '基于 Midway + Koa 框架',
         '使用 SQLite 数据库',
         'TypeScript 编写',
         '包含完整的用户认证系统'

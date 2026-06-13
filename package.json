@@ -2,7 +2,7 @@
   "name": "node-server",
   "version": "1.0.0",
   "private": true,
-  "description": "A Midway + Egg + SQLite + TypeScript project with authentication, scheduled tasks, queue, ES, remote calls, API, templates, and more",
+  "description": "A Midway + Koa + SQLite + TypeScript project with authentication, scheduled tasks, queue, ES, remote calls, API, templates, and more",
   "scripts": {
     "dev": "cross-env NODE_ENV=local midway-bin dev --ts",
     "build": "midway-bin build -c",

@@ -1,6 +1,6 @@
-# Midway + Egg + SQLite + TypeScript 项目
+# Midway + Koa + SQLite + TypeScript 项目
 
-这是一个基于 Midway + Egg + SQLite + TypeScript 的全功能 Node.js 服务端项目，包含了现代 Web 应用所需的各种功能模块。
+这是一个基于 Midway + Koa + SQLite + TypeScript 的全功能 Node.js 服务端项目，包含了现代 Web 应用所需的各种功能模块。
 
 ## 功能特性
 
@@ -19,7 +19,7 @@
 
 ## 技术栈
 
-- **框架**: Midway v3 + Egg.js
+- **框架**: Midway v3 + Koa.js
 - **语言**: TypeScript
 - **数据库**: SQLite
 - **ORM**: TypeORM
