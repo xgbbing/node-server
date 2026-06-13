@@ -1,4 +1,4 @@
-import { App, Controller, Get, Inject, Provide, Query, SetHeader, Redirect, sleep } from '@midwayjs/core';
+import { App, Controller, Get, Inject, Provide, Query, SetHeader, Redirect, sleep, Config } from '@midwayjs/core';
 import { Context, Application } from '@midwayjs/koa';
 import { WeatherService } from '../../service/weather.service';
 import { UserService } from '../../service/user.service';
@@ -12,6 +12,9 @@ export class TestController {
 
   @Inject()
   ctx!: Context;
+
+  @Config('userService')
+  userConfig;
 
   @Inject()
   weatherService!: WeatherService;
@@ -62,6 +65,7 @@ export class TestController {
   @Get('/register')
   async register() {
     try {
+      console.log(JSON.stringify(this.userConfig))
       const body = {
         username: 'testuser3',
         password: '12345',

@@ -3,12 +3,18 @@ import * as koa from '@midwayjs/koa';
 import * as ws from '@midwayjs/ws';
 import * as orm from '@midwayjs/typeorm';
 import * as view from '@midwayjs/view-nunjucks';
-import path from 'path';
 import { WeatherErrorFilter } from './filter/weather.filter';
+import path from 'path';
+import * as dotenv from 'dotenv';
+
+// load .env file in process.cwd
+dotenv.config();
 
 @Configuration({
   imports: [koa, view, ws, orm],
-  importConfigs: [path.join(__dirname, './config')],
+  importConfigs: [
+    path.join(__dirname, './config/'),
+  ],
 })
 
 export class MainConfiguration implements ILifeCycle {
