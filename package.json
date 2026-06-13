@@ -6,7 +6,7 @@
   "scripts": {
     "cli-dev": "cross-env NODE_ENV=local midway-bin dev --ts",
     "dev": "mwtsc --watch --run @midwayjs/mock/app.js",
-    "boot-dev": "mwtsc --watch --run bootstrap.js",
+    "boot-dev": "mwtsc --watch --run ./dist/bootstrap.js",
     "cli-build": "midway-bin build -c",
     "build": "mwtsc --cleanOutDir",
     "start": "NODE_ENV=production node bootstrap.js",

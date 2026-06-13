@@ -2,7 +2,7 @@ import { Configuration, App, ILifeCycle } from '@midwayjs/core';
 import * as koa from '@midwayjs/koa';
 import * as ws from '@midwayjs/ws';
 import * as orm from '@midwayjs/typeorm';
-import * as view from '@midwayjs/view-nunjucks';
+// import * as view from '@midwayjs/view-nunjucks';
 import { WeatherErrorFilter } from './filter/weather.filter';
 import path from 'path';
 import * as dotenv from 'dotenv';
@@ -11,7 +11,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 @Configuration({
-  imports: [koa, view, ws, orm],
+  imports: [koa, ws, orm],
   importConfigs: [
     path.join(__dirname, './config/'),
   ],

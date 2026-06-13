@@ -7,12 +7,12 @@ export default (appInfo: MidwayAppInfo): MidwayConfig => {
     koa: {
       port: process.env.PORT || 7001,
     },
-    view: {
-      defaultViewEngine: 'nunjucks',
-      rootDir: {
-        default: path.join(appInfo.baseDir, './app/view'),
-      }
-    },
+    // view: {
+    //   defaultViewEngine: 'nunjucks',
+    //   rootDir: {
+    //     default: path.join(appInfo.baseDir, './app/view'),
+    //   }
+    // },
     security: {
       csrf: {
         enable: false, // 在API项目中通常禁用CSRF

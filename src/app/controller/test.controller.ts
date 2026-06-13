@@ -27,7 +27,7 @@ export class TestController {
     'x-bbb': '123',
     'x-ccc': '234'
   })
-  async getWeatherInfo(@Query() queryData: { cityId: string }): Promise<void> {
+  async getWeatherInfo(@Query() queryData: { cityId: string }): Promise<string> {
     console.log(queryData.cityId, '======cityId');
     // console.log(this.ctx);
     // const query = this.ctx.query;
@@ -36,8 +36,10 @@ export class TestController {
     // console.log(this.app.getEnv());
     const result = await this.weatherService.getWeather(queryData.cityId || '1111');
     if (result) {
-      await this.ctx.render('home', result.weatherinfo);
+      return '获取天气成功'
+      // await this.ctx.render('home', result.weatherinfo);
     }
+    return '获取天气失败';
   }
 
   @Get('/get-weather')
