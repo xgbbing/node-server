@@ -4,3 +4,4 @@ database
 .vscode
 dist
 config/config.prod.ts
+package-lock.json
