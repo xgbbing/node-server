@@ -3,5 +3,5 @@ logs
 database
 .vscode
 dist
-config.prod.ts
 package-lock.json
+.env
