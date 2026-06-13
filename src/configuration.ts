@@ -38,5 +38,6 @@ export class MainConfiguration implements ILifeCycle {
 
   async onStop() {
     console.log('Application is stopping...');
+    process.exit(0);
   }
 }

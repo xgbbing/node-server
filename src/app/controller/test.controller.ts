@@ -67,6 +67,7 @@ export class TestController {
   @Get('/register')
   async register() {
     try {
+      console.log(this.ctx.app.env);
       console.log(JSON.stringify(this.userConfig))
       const body = {
         username: 'testuser3',
