@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Provide, Inject, Body, Query, Session } from '@midwayjs/decorator';
-import { Context } from 'egg';
+import { Controller, Get, Post, Provide, Inject, Body, Query, Session } from '@midwayjs/core';
+import { Context } from '@midwayjs/koa';
+
 import { UserService } from '../../service/user.service';
-// import { hashPassword } from '../../utils/index';
 import { RESPONSE_CODE, ERROR_MESSAGES } from '../../constant';
 
 @Provide()
@@ -19,7 +19,7 @@ export class UserController {
   @Post('/register')
   async register(@Body() body: any) {
     try {
-      const { username, password, email, nickname } = body;
+      const { username, password, email } = body;
 
       // 参数验证
       if (!username || !password || !email) {
@@ -34,7 +34,6 @@ export class UserController {
         username,
         password,
         email,
-        nickname,
       });
 
       // 不返回密码字段
@@ -82,7 +81,6 @@ export class UserController {
       // 设置会话
       session.userId = user.id;
       session.username = user.username;
-      session.role = user.role;
 
       // 不返回密码字段
       const { password: _, ...userWithoutPassword } = user;
@@ -111,7 +109,6 @@ export class UserController {
     // 清除会话
     session.userId = null;
     session.username = null;
-    session.role = null;
 
     return {
       code: RESPONSE_CODE.SUCCESS,

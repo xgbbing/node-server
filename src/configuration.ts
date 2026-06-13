@@ -1,63 +1,32 @@
-import { App, Configuration } from '@midwayjs/decorator';
-import { Application } from 'egg';
-// import { QueueService } from './queue/queue.service';
-import * as path from 'path';
-
-import * as core from '@midwayjs/core';
+import { Configuration, App, ILifeCycle } from '@midwayjs/core';
 import * as koa from '@midwayjs/koa';
-import * as session from '@midwayjs/session';
-import * as validate from '@midwayjs/validate';
-import * as info from '@midwayjs/info';
-import * as jwt from '@midwayjs/jwt';
-import * as axios from '@midwayjs/axios';
-import * as typeorm from '@midwayjs/typeorm';
+import * as ws from '@midwayjs/ws';
+import * as view from '@midwayjs/view-nunjucks';
+import path from 'path';
+import { WeatherErrorFilter } from './filter/weather.filter';
 
 @Configuration({
-  imports: [
-    core,
-    koa,
-    session,
-    validate,
-    info,
-    jwt,
-    axios,
-    typeorm,
-  ],
-  importConfigs: [
-    {
-      default: {
-        koa: {
-          port: 7001,
-        },
-        keys: 'node-server_1639994056460_8089',
-        typeorm: {
-          dataSource: {
-            default: {
-              type: 'sqlite',
-              database: path.join(process.cwd(), 'database', 'app.db'),
-              synchronize: process.env.NODE_ENV !== 'production',
-              logging: process.env.NODE_ENV !== 'production',
-              entities: [path.join(__dirname, 'entity/**/*{.ts,.js}')],
-              migrations: [path.join(__dirname, 'migration/**/*{.ts,.js}')],
-            },
-          },
-        },
-      },
-    },
-  ],
+  imports: [koa, view, ws],
+  importConfigs: [path.join(__dirname, './config')],
 })
-export class ContainerLifeCycle {
-  @App()
-  app!: Application;
 
-  // @Inject()
-  // queueService!: QueueService;
+export class MainConfiguration implements ILifeCycle {
+  @App()
+  app!: koa.Application;
+
+  @App('webSocket')
+  wsApp!: ws.Application;
 
   async onReady() {
-    // 启动队列处理器
-    // this.queueService.startProcessing();
-
     console.log('Application is ready!');
+    // add filter
+    this.app.useFilter([WeatherErrorFilter]);
+    // this.app.useMiddleweare(...);
+    // this.wsApp.useMiddleweare(...);
+  }
+
+  async didLoad() {
+    console.log('Application is loaded!');
   }
 
   async onStop() {

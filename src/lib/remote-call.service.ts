@@ -1,4 +1,4 @@
-import { Provide, Logger } from '@midwayjs/decorator';
+import { Provide, Logger } from '@midwayjs/core';
 import axios, { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { ILogger } from '@midwayjs/logger';
 

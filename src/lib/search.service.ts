@@ -1,4 +1,4 @@
-import { Provide, Inject, Logger } from '@midwayjs/decorator';
+import { Provide, Inject, Logger } from '@midwayjs/core';
 import { Client } from 'elasticsearch';
 import { ILogger } from '@midwayjs/logger';
 

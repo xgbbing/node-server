@@ -1,4 +1,4 @@
-import { Provide, Inject, ServerlessTrigger } from '@midwayjs/decorator';
+import { Provide, Inject, ServerlessTrigger } from '@midwayjs/core';
 // import { CronJob } from 'cron';
 import { join } from 'path';
 import { promises as fsPromises } from 'fs';

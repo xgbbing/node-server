@@ -19,7 +19,8 @@
     "rootDir": "src",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "types": ["node", "jest"]
   },
   "exclude": [
     "dist",

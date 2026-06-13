@@ -1,17 +1,15 @@
 import { MidwayAppInfo, MidwayConfig } from '@midwayjs/core';
-import * as path from 'path';
+// import path from 'path';
 
 export default (appInfo: MidwayAppInfo) => {
   const config = {} as MidwayConfig;
 
-  config.keys = appInfo.name + '_1639994056460_8089';
-
   // 本地开发环境数据库配置（SQLite）
-  config.sqlite = {
-    client: {
-      storage: path.join(process.cwd(), 'database', 'app.db'),
-    },
-  };
+  // config.sqlite = {
+  //   client: {
+  //     storage: path.join(process.cwd(), 'database', 'app.db'),
+  //   },
+  // };
 
   // 本地开发时的其他配置
   config.security = {
@@ -20,10 +18,10 @@ export default (appInfo: MidwayAppInfo) => {
     },
   };
 
-  // config.cors = {
-  //   origin: '*',
-  //   allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
-  // };
+  config.cors = {
+    origin: '*',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
+  };
 
   return config;
 };

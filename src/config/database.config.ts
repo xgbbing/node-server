@@ -1,5 +1,5 @@
 import { DataSourceOptions } from 'typeorm';
-import * as path from 'path';
+import path from 'path';
 
 // 根据环境变量确定数据库路径
 const getDbPath = (): string => {
@@ -21,8 +21,8 @@ export const databaseConfig: DataSourceOptions = {
   synchronize: process.env.NODE_ENV !== 'production', // 开发环境同步模式，生产环境关闭
   logging: process.env.NODE_ENV !== 'production', // 开发环境启用日志，生产环境关闭
   entities: [__dirname + '/../entity/**/*{.ts,.js}'],
-  migrations: [__dirname + '/../migration/**/*{.ts,.js}'],
-  subscribers: [__dirname + '/../subscriber/**/*{.ts,.js}'],
+  // migrations: [__dirname + '/../migration/**/*{.ts,.js}'],
+  // subscribers: [__dirname + '/../subscriber/**/*{.ts,.js}'],
 };
 
 export default databaseConfig;

@@ -1,4 +1,4 @@
-import { Provide, Logger, Scope, ScopeEnum } from '@midwayjs/decorator';
+import { Provide, Logger, Scope, ScopeEnum } from '@midwayjs/core';
 import Bull from 'bull';
 import { ILogger } from '@midwayjs/logger';
 
@@ -9,33 +9,47 @@ export class QueueService {
   logger!: ILogger;
 
   private queues: Map<string, Bull.Queue> = new Map();
+  private initialized = false;
 
   constructor() {
-    // 初始化不同的队列
-    this.initQueues();
+    // 延迟初始化队列，避免在 Redis 不可用时阻止应用启动
   }
 
   private initQueues(): void {
-    // 邮件发送队列
-    const emailQueue = new Bull('email queue', {
-      redis: { port: 6379, host: '127.0.0.1' },
-    });
-    this.queues.set('email', emailQueue);
+    if (this.initialized) {
+      return;
+    }
 
-    // 短信发送队列
-    const smsQueue = new Bull('sms queue', {
-      redis: { port: 6379, host: '127.0.0.1' },
-    });
-    this.queues.set('sms', smsQueue);
+    try {
+      // 邮件发送队列
+      const emailQueue = new Bull('email queue', {
+        redis: { port: 6379, host: '127.0.0.1' },
+      });
+      this.queues.set('email', emailQueue);
 
-    // 通知发送队列
-    const notificationQueue = new Bull('notification queue', {
-      redis: { port: 6379, host: '127.0.0.1' },
-    });
-    this.queues.set('notification', notificationQueue);
+      // 短信发送队列
+      const smsQueue = new Bull('sms queue', {
+        redis: { port: 6379, host: '127.0.0.1' },
+      });
+      this.queues.set('sms', smsQueue);
 
-    // 添加队列事件监听器
-    this.setupQueueListeners();
+      // 通知发送队列
+      const notificationQueue = new Bull('notification queue', {
+        redis: { port: 6379, host: '127.0.0.1' },
+      });
+      this.queues.set('notification', notificationQueue);
+
+      // 添加队列事件监听器
+      this.setupQueueListeners();
+      this.initialized = true;
+    } catch (error) {
+      this.logger.error('Failed to initialize queues:', error);
+      this.initialized = false;
+    }
+  }
+
+  public ensureInitialized(): void {
+    this.initQueues();
   }
 
   private setupQueueListeners(): void {

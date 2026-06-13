@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
           Utils.showMessage(response.message || '操作失败', 'error');
         }
-      } catch (error: any) {
+      } catch (error) {
         Utils.showMessage('网络请求失败', 'error');
       }
     });

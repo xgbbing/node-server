@@ -1,5 +1,4 @@
-import { Provide, Scope, ScopeEnum } from '@midwayjs/decorator';
-import { Middleware, IMiddleware } from '@midwayjs/core';
+import { Middleware, IMiddleware, Provide, Scope, ScopeEnum } from '@midwayjs/core';
 import { NextFunction, Context } from '@midwayjs/koa';
 
 @Provide()
@@ -9,7 +8,7 @@ export class AuthMiddleware implements IMiddleware<Context, NextFunction> {
   resolve() {
     return async (ctx: Context, next: NextFunction) => {
       // 白名单路径，无需验证
-      const whiteList = ['/api/user/login', '/api/user/register', '/api/public'];
+      const whiteList = ['/api/user/login', '/api/user/register', '/api/user/logout', '/api/test'];
 
       // 如果是白名单路径，直接跳过验证
       if (whiteList.some(path => ctx.path.startsWith(path))) {

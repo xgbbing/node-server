@@ -1,5 +1,5 @@
-import { Controller, Get, Provide, Inject } from '@midwayjs/decorator';
-import { Context } from 'egg';
+import { Controller, Get, Inject, Provide } from '@midwayjs/core';
+import { Context } from '@midwayjs/koa';
 
 @Provide()
 @Controller('/')
@@ -18,5 +18,9 @@ export class HomeController {
         '包含完整的用户认证系统'
       ]
     };
+    // return {
+    //   message: 'Hello Midwayjs!',
+    //   query: this.ctx.ip
+    // }
   }
 }
