@@ -10,9 +10,9 @@ export class UserEntity {
   @Column()
   password!: string;
 
-  @Column({ name: 'created_at' })
-  createdAt!: Date;
+  @Column({ name: 'created_at', nullable: true })
+  createdAt?: Date;
 
-  @Column({ name: 'last_login_at' })
-  lastLoginAt!: Date;
+  @Column({ name: 'last_login_at', nullable: true })
+  lastLoginAt?: Date;
 }

@@ -63,7 +63,7 @@ export class TestController {
   async register() {
     try {
       const body = {
-        username: 'testuser',
+        username: 'testuser3',
         password: '12345',
       }
 

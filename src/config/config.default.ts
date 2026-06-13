@@ -60,9 +60,7 @@ export default (appInfo: MidwayAppInfo) => {
         database: path.join(__dirname, '../../database/users.db'),
         synchronize: true, // 同步模式
         logging: true, // 开启日志
-        entities: [
-          path.join(__dirname, '../entity/*{.ts,.js}'), // 使用绝对路径扫描实体
-        ]
+        entities: ['entity/*.{ts,js}']
       }
     }
   };
