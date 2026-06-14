@@ -5,5 +5,10 @@ export default (): MidwayConfig => {
     security: {
       domainWhiteList: [process.env.HOST],
     },
+    midwayLogger: {
+      default: {
+        level: 'warn',
+      },
+    },
   };
 };

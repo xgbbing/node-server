@@ -100,7 +100,7 @@ npm run compress
 ```
 
 3. 把以下内容打包上传到服务器
-#    - dist/            # 编译后的代码
+#    - dist             # 编译后的代码
 #    - package.json     # 依赖清单
 #    - package-lock.json（或 yarn.lock）
 
@@ -117,3 +117,4 @@ npm start
 ## 许可证
 
 MIT
+
