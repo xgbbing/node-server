@@ -19,6 +19,22 @@ export default (appInfo: MidwayAppInfo): MidwayConfig => {
       }
     },
     midwayLogger: {
+      default: {
+        level: 'info',
+        transports: {
+          console: {
+            level: 'info'
+          },
+          file: {
+            maxFiles: '3d',
+            maxSize: '100m',
+          },
+          error: {
+            maxFiles: '3d',
+            maxSize: '100m',
+          },
+        }
+      },
       clients: {
         coreLogger: {
           level: 'info',

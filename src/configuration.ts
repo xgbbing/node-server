@@ -29,6 +29,7 @@ export class MainConfiguration implements ILifeCycle {
 
   async onReady() {
     this.logger.info('Application is ready!');
+    this.logger.warn('warn: Application is ready!');
     // add filter
     this.app.useFilter([WeatherErrorFilter]);
     // this.app.useMiddleweare(...);

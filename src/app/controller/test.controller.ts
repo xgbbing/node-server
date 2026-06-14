@@ -1,4 +1,4 @@
-import { App, Controller, Get, Inject, Provide, Query, SetHeader, Redirect, sleep, Config, ILogger } from '@midwayjs/core';
+import { App, Controller, Get, Inject, Provide, Query, SetHeader, Redirect, sleep, Config, Logger, ILogger } from '@midwayjs/core';
 import { Context, Application } from '@midwayjs/koa';
 import { WeatherService } from '../../service/weather.service';
 import { UserService } from '../../service/user.service';
@@ -22,7 +22,7 @@ export class TestController {
   @Inject()
   userService!: UserService;
 
-  @Inject()
+  @Logger()
   logger!: ILogger;
 
   @Get('/weather')
@@ -70,12 +70,14 @@ export class TestController {
   @Get('/register')
   async register(@Query() queryData) {
     try {
-      this.logger.info(this.ctx.app.env);
+      this.logger.info(this.ctx.app.env, '=======env==========');
       // this.logger.info(JSON.stringify(this.userConfig))
       // const body = {
       //   username: 'testuser3',
       //   password: '12345',
       // }
+
+      this.ctx.logger.info('Registering user with data:', queryData);
 
       const { username, password } = queryData;
 
