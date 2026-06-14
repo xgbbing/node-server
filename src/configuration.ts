@@ -1,4 +1,4 @@
-import { Configuration, App, ILifeCycle, Logger, ILogger } from '@midwayjs/core';
+import { Configuration, App, ILifeCycle, Logger, ILogger, ALL, Config } from '@midwayjs/core';
 import * as koa from '@midwayjs/koa';
 import * as ws from '@midwayjs/ws';
 import * as orm from '@midwayjs/typeorm';
@@ -28,10 +28,24 @@ export class MainConfiguration implements ILifeCycle {
   @Logger('coreLogger')
   logger!: ILogger;
 
+  @Config(ALL)
+  allConfig;
+
   async onReady() {
     this.logger.info('info: Application is ready!');
     this.logger.warn('warn: Application is ready!');
     this.logger.error('error: Application is ready!');
+    this.logger.warn('warn all config', JSON.stringify(this.allConfig))
+
+    // 打印环境变量
+    this.logger.warn('MIDWAY_SERVER_ENV:', process.env.MIDWAY_SERVER_ENV);
+    this.logger.warn('NODE_ENV:', process.env.NODE_ENV);
+
+    // Midway 内置的环境获取方法
+    const env = this.app.getEnv();
+    this.logger.warn('Midway env:', env);
+
+
     // add filter
     this.app.useFilter([WeatherErrorFilter]);
     // 添加 Chrome DevTools 中间件来静默处理特殊请求
