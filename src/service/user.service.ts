@@ -1,9 +1,8 @@
-import { Provide, Logger } from '@midwayjs/core';
+import { Provide, Logger, ILogger } from '@midwayjs/core';
 import { Repository } from 'typeorm';
 import { InjectEntityModel } from '@midwayjs/typeorm';
 import { UserEntity } from '../entity/user.entity';
 import { hashPassword, comparePassword } from '../utils';
-import { ILogger } from '@midwayjs/logger';
 
 @Provide()
 export class UserService {

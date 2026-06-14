@@ -1,4 +1,4 @@
-import { Configuration, App, ILifeCycle } from '@midwayjs/core';
+import { Configuration, App, ILifeCycle, Logger, ILogger } from '@midwayjs/core';
 import * as koa from '@midwayjs/koa';
 import * as ws from '@midwayjs/ws';
 import * as orm from '@midwayjs/typeorm';
@@ -24,8 +24,11 @@ export class MainConfiguration implements ILifeCycle {
   @App('webSocket')
   wsApp!: ws.Application;
 
+  @Logger('coreLogger')
+  logger!: ILogger;
+
   async onReady() {
-    console.log('Application is ready!');
+    this.logger.info('Application is ready!');
     // add filter
     this.app.useFilter([WeatherErrorFilter]);
     // this.app.useMiddleweare(...);
@@ -33,11 +36,11 @@ export class MainConfiguration implements ILifeCycle {
   }
 
   async didLoad() {
-    console.log('Application is loaded!');
+    this.logger.info('Application is loaded!');
   }
 
   async onStop() {
-    console.log('Application is stopping...');
+    this.logger.info('Application is stopping...');
     process.exit(0);
   }
 }

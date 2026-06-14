@@ -1,4 +1,4 @@
-import { App, Controller, Get, Inject, Provide, Query, SetHeader, Redirect, sleep, Config } from '@midwayjs/core';
+import { App, Controller, Get, Inject, Provide, Query, SetHeader, Redirect, sleep, Config, ILogger } from '@midwayjs/core';
 import { Context, Application } from '@midwayjs/koa';
 import { WeatherService } from '../../service/weather.service';
 import { UserService } from '../../service/user.service';
@@ -22,18 +22,21 @@ export class TestController {
   @Inject()
   userService!: UserService;
 
+  @Inject()
+  logger!: ILogger;
+
   @Get('/weather')
   @SetHeader({
     'x-bbb': '123',
     'x-ccc': '234'
   })
   async getWeatherInfo(@Query() queryData: { cityId: string }): Promise<string> {
-    console.log(queryData.cityId, '======cityId');
-    // console.log(this.ctx);
+    this.logger.info(queryData.cityId, '======cityId');
+    // this.logger.info(this.ctx);
     // const query = this.ctx.query;
-    // console.log(query);
-    // console.log(this.app.getConfig());
-    // console.log(this.app.getEnv());
+    // this.logger.info(query);
+    // this.logger.info(this.app.getConfig());
+    // this.logger.info(this.app.getEnv());
     const result = await this.weatherService.getWeather(queryData.cityId || '1111');
     if (result) {
       return '获取天气成功'
@@ -46,7 +49,7 @@ export class TestController {
   @Redirect('/api/test/weather', 302)
   async loginAnother() {
     // TODO
-    console.log('redirecting to /weather');
+    this.logger.info('redirecting to /weather');
   }
 
   @Get('/stream-data')
@@ -65,16 +68,16 @@ export class TestController {
      * 用户注册
      */
   @Get('/register')
-  async register() {
+  async register(@Query() queryData) {
     try {
-      console.log(this.ctx.app.env);
-      console.log(JSON.stringify(this.userConfig))
-      const body = {
-        username: 'testuser3',
-        password: '12345',
-      }
+      this.logger.info(this.ctx.app.env);
+      // this.logger.info(JSON.stringify(this.userConfig))
+      // const body = {
+      //   username: 'testuser3',
+      //   password: '12345',
+      // }
 
-      const { username, password } = body;
+      const { username, password } = queryData;
 
       // 参数验证
       if (!username || !password) {

@@ -7,18 +7,6 @@ export default (appInfo: MidwayAppInfo): MidwayConfig => {
     koa: {
       port: process.env.PORT || 7001,
     },
-    // view: {
-    //   defaultViewEngine: 'nunjucks',
-    //   rootDir: {
-    //     default: path.join(appInfo.baseDir, './app/view'),
-    //   }
-    // },
-    session: {
-      key: 'Koa_SESS',
-      maxAge: 24 * 3600 * 1000, // 1天
-      httpOnly: true,
-      encrypt: true,
-    },
     typeorm: {
       dataSource: {
         default: {
@@ -30,6 +18,28 @@ export default (appInfo: MidwayAppInfo): MidwayConfig => {
         }
       }
     },
+    midwayLogger: {
+      clients: {
+        coreLogger: {
+          level: 'info',
+        },
+        appLogger: {
+          level: 'info',
+        }
+      }
+    },
+    // session: {
+    //   key: 'Koa_SESS',
+    //   maxAge: 24 * 3600 * 1000, // 1天
+    //   httpOnly: true,
+    //   encrypt: true,
+    // },
+    // view: {
+    //   defaultViewEngine: 'nunjucks',
+    //   rootDir: {
+    //     default: path.join(appInfo.baseDir, './app/view'),
+    //   }
+    // },
     // middleware: ['auth'],
     // elasticsearch: {
     //   host: 'localhost:9200',

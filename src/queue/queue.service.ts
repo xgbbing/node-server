@@ -1,6 +1,5 @@
-import { Provide, Logger, Scope, ScopeEnum } from '@midwayjs/core';
+import { Provide, Logger, Scope, ScopeEnum, ILogger } from '@midwayjs/core';
 import Bull from 'bull';
-import { ILogger } from '@midwayjs/logger';
 
 @Provide()
 @Scope(ScopeEnum.Singleton)

@@ -1,6 +1,5 @@
-import { Provide, Logger } from '@midwayjs/core';
+import { Provide, Logger, ILogger } from '@midwayjs/core';
 import axios, { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { ILogger } from '@midwayjs/logger';
 
 @Provide()
 export class RemoteCallService {

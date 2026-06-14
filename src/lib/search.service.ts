@@ -1,6 +1,5 @@
-import { Provide, Inject, Logger } from '@midwayjs/core';
+import { Provide, Inject, Logger, ILogger } from '@midwayjs/core';
 import { Client } from 'elasticsearch';
-import { ILogger } from '@midwayjs/logger';
 
 @Provide()
 export class SearchService {
