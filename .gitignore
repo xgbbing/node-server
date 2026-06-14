@@ -3,5 +3,4 @@ logs
 database
 .vscode
 dist
-package-lock.json
 .env
