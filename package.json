@@ -23,9 +23,7 @@
   "dependencies": {
     "@midwayjs/axios": "^3.20.24",
     "@midwayjs/bootstrap": "^3.20.24",
-    "@midwayjs/bundle-helper": "^1.3.0",
     "@midwayjs/core": "^3.20.24",
-    "@midwayjs/decorator": "^3.20.24",
     "@midwayjs/koa": "^3.20.24",
     "@midwayjs/logger": "^3.4.2",
     "@midwayjs/typeorm": "^3.20.24",
@@ -35,15 +33,16 @@
     "bull": "^4.0.0",
     "bunyan": "^1.8.15",
     "elasticsearch": "^16.7.2",
-    "jest": "^30.4.2",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.0",
-    "mwtsc": "^1.16.0",
     "sqlite3": "^5.1.7",
     "typeorm": "^0.3.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "mwtsc": "^1.16.0",
+    "jest": "^30.4.2",
+    "@midwayjs/bundle-helper": "^1.3.0",
     "@midwayjs/cli": "^2.1.1",
     "@midwayjs/mock": "^3.0.0",
     "@types/bcryptjs": "^2.4.2",

@@ -89,17 +89,27 @@ npm run dev
 
 ## 部署
 
-1. 构建项目：
+1. 在本地构建
 ```bash
 npm run build
-
 ```
-2. 压缩（可选）
+
+2. 在本地压缩（可选）
 ```bash
 npm run compress
 ```
 
-3. 启动生产环境：
+3. 把以下内容打包上传到服务器
+#    - dist/            # 编译后的代码
+#    - package.json     # 依赖清单
+#    - package-lock.json（或 yarn.lock）
+
+4. 在服务器上执行
+```bash
+npm install --production   # 只安装生产依赖，不装 devDependencies
+```
+
+3. 启动生产环境
 ```bash
 npm start
 ```
