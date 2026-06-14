@@ -1,9 +1,9 @@
 import { MidwayConfig } from '@midwayjs/core';
 
-export default () => {
+export default (): MidwayConfig => {
   return {
     security: {
       domainWhiteList: [process.env.HOST],
     },
-  } as MidwayConfig;
+  };
 };

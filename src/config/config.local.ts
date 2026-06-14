@@ -1,6 +1,6 @@
-import { MidwayConfig } from '@midwayjs/core';
+import { MidwayConfig, MidwayAppInfo } from '@midwayjs/core';
 
-export default () => {
+export default (appInfo: MidwayAppInfo): MidwayConfig => {
   return {
     security: {
       csrf: {
@@ -11,6 +11,11 @@ export default () => {
     cors: {
       origin: '*',
       allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  } as MidwayConfig;
+    },
+    midwayLogger: {
+      default: {
+        level: 'info',
+      },
+    },
+  };
 };

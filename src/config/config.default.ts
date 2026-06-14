@@ -5,7 +5,7 @@ export default (appInfo: MidwayAppInfo): MidwayConfig => {
   return {
     keys: appInfo.name + '_1639994056460_8089',
     koa: {
-      port: process.env.PORT || 7001,
+      port: parseInt(process.env.PORT as string) || 7001,
     },
     typeorm: {
       dataSource: {
@@ -20,29 +20,18 @@ export default (appInfo: MidwayAppInfo): MidwayConfig => {
     },
     midwayLogger: {
       default: {
-        level: 'info',
         transports: {
-          console: {
-            level: 'info'
-          },
           file: {
-            maxFiles: '3d',
-            maxSize: '100m',
+            dir: path.join(appInfo.baseDir, '../logs')
+          },
+          console: {
+            dir: path.join(appInfo.baseDir, '../logs')
           },
           error: {
-            maxFiles: '3d',
-            maxSize: '100m',
+            dir: path.join(appInfo.baseDir, '../logs')
           },
         }
       },
-      clients: {
-        coreLogger: {
-          level: 'info',
-        },
-        appLogger: {
-          level: 'info',
-        }
-      }
     },
     // session: {
     //   key: 'Koa_SESS',
@@ -61,5 +50,5 @@ export default (appInfo: MidwayAppInfo): MidwayConfig => {
     //   host: 'localhost:9200',
     //   log: 'info',
     // },
-  } as MidwayConfig;
+  };
 };

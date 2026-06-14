@@ -29,8 +29,9 @@ export class MainConfiguration implements ILifeCycle {
   logger!: ILogger;
 
   async onReady() {
-    this.logger.info('Application is ready!');
+    this.logger.info('info: Application is ready!');
     this.logger.warn('warn: Application is ready!');
+    this.logger.error('error: Application is ready!');
     // add filter
     this.app.useFilter([WeatherErrorFilter]);
     // 添加 Chrome DevTools 中间件来静默处理特殊请求

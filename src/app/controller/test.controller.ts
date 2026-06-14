@@ -32,6 +32,7 @@ export class TestController {
   })
   async getWeatherInfo(@Query() queryData: { cityId: string }): Promise<string> {
     this.logger.info(queryData.cityId, '======cityId');
+
     // this.logger.info(this.ctx);
     // const query = this.ctx.query;
     // this.logger.info(query);
@@ -70,12 +71,14 @@ export class TestController {
   @Get('/register')
   async register(@Query() queryData) {
     try {
-      this.logger.info(this.ctx.app.env, '=======env==========');
+      this.logger.info(this.ctx.app.env, '=======info: env==========');
       // this.logger.info(JSON.stringify(this.userConfig))
       // const body = {
       //   username: 'testuser3',
       //   password: '12345',
       // }
+      this.logger.error(this.ctx.app.env, '=======error: env==========');
+      this.logger.warn(this.ctx.app.env, '=======warn: env==========');
 
       this.ctx.logger.info('Registering user with data:', queryData);
 
