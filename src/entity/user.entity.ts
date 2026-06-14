@@ -15,4 +15,8 @@ export class UserEntity {
 
   @Column({ name: 'last_login_at', nullable: true })
   lastLoginAt?: Date;
+
+  // 添加扩展字段用来存储可能附带的信息
+  @Column({ type: 'json', nullable: true, name: 'extra_info' })
+  extraInfo?: Record<string, any>;
 }
