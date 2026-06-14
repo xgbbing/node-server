@@ -1,5 +1,6 @@
 import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
-@Entity('users')  // 修改表名为 'users'，更符合用户表的语义
+
+@Entity('users')
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id!: number;

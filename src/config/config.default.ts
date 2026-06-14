@@ -14,7 +14,14 @@ export default (appInfo: MidwayAppInfo): MidwayConfig => {
           database: path.join(appInfo.baseDir, '../database/users.db'),
           synchronize: true, // 同步模式
           logging: true, // 开启日志
-          entities: ['entity/*.{ts,js}']
+          entities: ['entity/user.entity.{ts,js}']
+        },
+        monitor: {
+          type: 'sqlite',
+          database: path.join(appInfo.baseDir, '../database/monitor.db'),
+          synchronize: true, // 同步模式
+          logging: true, // 开启日志
+          entities: ['entity/monitor.entity.{ts,js}']
         }
       }
     },

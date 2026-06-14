@@ -15,7 +15,7 @@ export const HTTP_STATUS = {
 
 // 响应代码常量
 export const RESPONSE_CODE = {
-  SUCCESS: 0,
+  SUCCESS: 200,
   ERROR: -1,
   UNAUTHORIZED: 401,
   FORBIDDEN: 403,

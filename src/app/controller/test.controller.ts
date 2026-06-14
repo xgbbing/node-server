@@ -3,6 +3,7 @@ import { Context, Application } from '@midwayjs/koa';
 import { WeatherService } from '../../service/weather.service';
 import { UserService } from '../../service/user.service';
 import { RESPONSE_CODE } from '../../constant';
+import { MonitorService } from '../../service/monitor.service';
 
 @Provide()
 @Controller('/api/test')
@@ -21,6 +22,9 @@ export class TestController {
 
   @Inject()
   userService!: UserService;
+
+  @Inject()
+  monitorService!: MonitorService;
 
   @Logger()
   logger!: ILogger;
@@ -110,6 +114,22 @@ export class TestController {
       return {
         code: RESPONSE_CODE.ERROR,
         message: error?.message || '注册失败',
+      };
+    }
+  }
+
+
+  @Get('/log')
+  async sendPv(@Query() queryData: any): Promise<any> {
+    try {
+      await this.monitorService.create(queryData);
+      return {
+        code: RESPONSE_CODE.SUCCESS,
+      };
+    } catch (error: any) {
+      return {
+        code: RESPONSE_CODE.ERROR,
+        message: error?.message,
       };
     }
   }
