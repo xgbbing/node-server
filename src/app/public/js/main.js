@@ -25,7 +25,7 @@ class Utils {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       return await response.json();
-    } catch (error: any) {
+    } catch (error) {
       console.error('Request failed:', error);
       throw error;
     }
