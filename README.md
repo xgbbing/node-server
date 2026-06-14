@@ -92,9 +92,14 @@ npm run dev
 1. 构建项目：
 ```bash
 npm run build
+
+```
+2. 压缩（可选）
+```bash
+npm run compress
 ```
 
-2. 启动生产环境：
+3. 启动生产环境：
 ```bash
 npm start
 ```
