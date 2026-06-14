@@ -6,6 +6,7 @@ import * as orm from '@midwayjs/typeorm';
 import { WeatherErrorFilter } from './filter/weather.filter';
 import path from 'path';
 import * as dotenv from 'dotenv';
+import { devtoolsMiddleware } from './app/middleware/devtools.middleware';
 
 // load .env file in process.cwd
 dotenv.config();
@@ -32,7 +33,8 @@ export class MainConfiguration implements ILifeCycle {
     this.logger.warn('warn: Application is ready!');
     // add filter
     this.app.useFilter([WeatherErrorFilter]);
-    // this.app.useMiddleweare(...);
+    // 添加 Chrome DevTools 中间件来静默处理特殊请求
+    this.app.use(devtoolsMiddleware);
     // this.wsApp.useMiddleweare(...);
   }
 
