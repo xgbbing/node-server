@@ -1,4 +1,5 @@
 import { Controller, Inject, Provide, Body, Post } from '@midwayjs/core';
+import { Context } from '@midwayjs/koa';
 import { RESPONSE_CODE } from '../../constant';
 import { MonitorService } from '../../service/monitor.service';
 
@@ -6,12 +7,18 @@ import { MonitorService } from '../../service/monitor.service';
 @Controller('/api/monitor')
 export class TestController {
   @Inject()
+  ctx!: Context;
+
+  @Inject()
   monitorService!: MonitorService;
 
   @Post('/log')
   async sendPv(@Body() body: any): Promise<any> {
     try {
-      await this.monitorService.create(body);
+      await this.monitorService.create({
+        ...body,
+        user_ip: this.ctx.ip,
+      });
       return {
         code: RESPONSE_CODE.SUCCESS,
       };

@@ -21,6 +21,10 @@ export class MonitorEntity {
   @Column({ nullable: true })
   env?: string;
 
+  /** 用户 IP */
+  @Column({ nullable: true })
+  user_ip?: string;
+
   /** 用户 ID */
   @Column({ nullable: true })
   user_id?: string;
