@@ -1,7 +1,9 @@
-import { Provide, Logger, ILogger } from '@midwayjs/core';
+import { Provide, Logger, ILogger, Inject } from '@midwayjs/core';
 import { Repository } from 'typeorm';
+import { Context } from '@midwayjs/koa';
 import { InjectEntityModel } from '@midwayjs/typeorm';
 import { MonitorEntity } from '../entity/monitor.entity';
+import { getRealIp } from '../utils';
 
 @Provide()
 export class MonitorService {
@@ -11,13 +13,19 @@ export class MonitorService {
   @Logger()
   logger!: ILogger;
 
+  @Inject()
+  ctx!: Context;
+
   /**
    * 创建一条数据
    */
   async create(queryData): Promise<MonitorEntity> {
 
     let monitor = new MonitorEntity();
-    monitor = queryData
+    monitor = {
+      ...queryData,
+      user_ip: getRealIp(this.ctx),
+    }
 
     const savedData = await this.monitorModel.save(monitor);
 

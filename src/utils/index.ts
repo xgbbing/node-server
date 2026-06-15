@@ -1,6 +1,7 @@
 /**
  * 公共工具函数
  */
+import { Context } from '@midwayjs/koa';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import moment from 'moment';
@@ -123,4 +124,22 @@ export const throttle = <F extends (...args: any[]) => any>(
       lastExecTime = currentTime;
     }
   };
+};
+
+// 封装一个获取 IP 的工具函数
+export const getRealIp = (ctx: Context): string => {
+  // 优先级：X-Forwarded-For > X-Real-IP > ctx.ip
+  const xForwardedFor = ctx.req.headers['x-forwarded-for'] as string;
+  if (xForwardedFor) {
+    // X-Forwarded-For 可能包含多个 IP（代理链），取第一个
+    return xForwardedFor.split(',')[0].trim();
+  }
+
+  const xRealIp = ctx.req.headers['x-real-ip'] as string;
+  if (xRealIp) {
+    return xRealIp;
+  }
+
+  // 兜底：ctx.ip，并去掉 IPv6 映射前缀
+  return ctx.ip?.replace('::ffff:', '') || '';
 };
