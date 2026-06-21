@@ -79,7 +79,7 @@ export class MonitorEntity {
 
   /** 打点时间 */
   @Column({ nullable: true })
-  log_time?: number;
+  log_time?: string;
 
   /** 页面加载到错误发生延迟时间 */
   @Column({ nullable: true })

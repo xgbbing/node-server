@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { Context } from '@midwayjs/koa';
 import { InjectEntityModel } from '@midwayjs/typeorm';
 import { MonitorEntity } from '../entity/monitor.entity';
-import { getRealIp } from '../utils';
+import { formatUTC8Date, getRealIp } from '../utils';
 
 @Provide()
 export class MonitorService {
@@ -25,6 +25,7 @@ export class MonitorService {
     monitor = {
       ...queryData,
       user_ip: getRealIp(this.ctx),
+      log_time: formatUTC8Date(queryData?.log_time),
     }
 
     this.logger.warn('save data====', JSON.stringify(monitor));

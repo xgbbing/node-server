@@ -47,6 +47,10 @@ export const formatDate = (date: Date | string, format: string = 'YYYY-MM-DD HH:
   return moment(date).format(format);
 };
 
+export const formatUTC8Date = (date: Date | string): string => {
+  return moment(date).utcOffset(8).format();
+};
+
 /**
  * 生成唯一ID工具函数
  */
