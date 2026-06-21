@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Provide, Inject, Body, Query, Session } from '@midwayjs/core';
+import { Controller, Get, Post, Provide, Inject, Body, Query, Session, Logger, ILogger } from '@midwayjs/core';
 import { Context } from '@midwayjs/koa';
 
 import { UserService } from '../../service/user.service';
@@ -12,6 +12,9 @@ export class UserController {
 
   @Inject()
   userService!: UserService;
+
+  @Logger()
+  logger!: ILogger;
 
   /**
    * 用户注册
@@ -28,6 +31,10 @@ export class UserController {
           message: '用户名、密码不能为空',
         };
       }
+
+      console.error('========save register log====', username, password);
+      this.logger.error('========save register====', username, password);
+      this.logger.warn('===========1111222postRegistering user with data:', username, password);
 
       // 创建用户
       const newUser = await this.userService.createUser({

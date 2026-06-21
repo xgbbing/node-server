@@ -27,6 +27,8 @@ export class MonitorService {
       user_ip: getRealIp(this.ctx),
     }
 
+    this.logger.warn('save data====', JSON.stringify(monitor));
+
     const savedData = await this.monitorModel.save(monitor);
 
     return savedData;

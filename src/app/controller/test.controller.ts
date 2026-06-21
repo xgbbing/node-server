@@ -81,10 +81,10 @@ export class TestController {
       //   username: 'testuser3',
       //   password: '12345',
       // }
-      this.logger.error(this.ctx.app.env, '=======error: env==========');
-      this.logger.warn(this.ctx.app.env, '=======warn: env==========');
+      this.logger.error(this.ctx.app.env, '111=======error: env==========');
+      this.logger.warn(this.ctx.app.env, '111=======warn: env==========');
 
-      this.ctx.logger.info('Registering user with data:', queryData);
+      this.logger.warn('===========1111222Registering user with data:', JSON.stringify(queryData));
 
       const { username, password } = queryData;
 
