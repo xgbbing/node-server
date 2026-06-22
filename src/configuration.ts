@@ -62,3 +62,31 @@ export class MainConfiguration implements ILifeCycle {
     process.exit(0);
   }
 }
+
+import { App, Configuration, Inject } from '@midwayjs/core';
+import { Application } from '@midwayjs/koa';
+
+@Configuration({
+  importConfigs: [
+    {
+      default: {
+        jwt: {
+          secret: process.env.JWT_SECRET || 'your-jwt-secret-key-change-in-production',
+          expiresIn: process.env.JWT_EXPIRES_IN || '24h',
+        }
+      }
+    }
+  ]
+})
+export class ContainerConfiguration {
+  @App()
+  app: Application;
+
+  @Inject()
+  userService: any;
+
+  async onReady() {
+    // 应用准备就绪后的初始化逻辑
+    console.log('应用启动完成');
+  }
+}

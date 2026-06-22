@@ -6,8 +6,8 @@ import { RESPONSE_CODE, ERROR_MESSAGES, RESPONSE_MESSAGES } from '../../constant
 import { IUserRegistration } from '../../interface';
 
 @Provide()
-@Controller('/api/user')
-export class UserController {
+@Controller('/api/auth')
+export class AuthController {
   @Inject()
   ctx!: Context;
 
@@ -61,7 +61,6 @@ export class UserController {
         username,
         password,
         email,
-        // 不传递 nickname
       });
 
       // 不返回密码字段
@@ -73,6 +72,7 @@ export class UserController {
         data: userWithoutPassword,
       };
     } catch (error: any) {
+      this.logger.error('用户注册失败:', error);
       return {
         code: RESPONSE_CODE.ERROR,
         message: error?.message || RESPONSE_MESSAGES.REGISTER_FAILED,
@@ -84,7 +84,7 @@ export class UserController {
    * 用户登录
    */
   @Post('/login')
-  async login(@Body() body: any, @Session() session: any) {
+  async login(@Body() body: any) {
     try {
       const { username, password } = body;
 
@@ -106,10 +106,6 @@ export class UserController {
       // 更新最后登录时间
       await this.userService.updateLastLogin(user.id);
 
-      // 设置会话
-      session.userId = user.id;
-      session.username = user.username;
-
       // 生成JWT token
       const token = this.userService.generateToken(user);
 
@@ -125,6 +121,7 @@ export class UserController {
         },
       };
     } catch (error: any) {
+      this.logger.error('用户登录失败:', error);
       return {
         code: RESPONSE_CODE.ERROR,
         message: error?.message || RESPONSE_MESSAGES.LOGIN_FAILED,
@@ -136,11 +133,10 @@ export class UserController {
    * 用户登出
    */
   @Post('/logout')
-  async logout(@Session() session: any) {
-    // 清除会话
-    session.userId = null;
-    session.username = null;
-
+  async logout() {
+    // JWT是无状态的，不需要服务器端操作
+    // 只需让客户端删除本地存储的token即可
+    
     return {
       code: RESPONSE_CODE.SUCCESS,
       message: '登出成功',
@@ -148,140 +144,111 @@ export class UserController {
   }
 
   /**
-   * 获取当前用户信息
+   * 刷新令牌
    */
-  @Get('/profile')
-  async profile(@Session() session: any) {
-    if (!session.userId) {
-      return {
-        code: RESPONSE_CODE.UNAUTHORIZED,
-        message: ERROR_MESSAGES.UNAUTHORIZED,
-      };
-    }
-
-    const user = await this.userService.findById(session.userId);
-    if (!user) {
-      return {
-        code: RESPONSE_CODE.ERROR,
-        message: ERROR_MESSAGES.USER_NOT_FOUND,
-      };
-    }
-
-    const { password: _, ...userWithoutPassword } = user;
-
-    return {
-      code: RESPONSE_CODE.SUCCESS,
-      message: '获取成功',
-      data: userWithoutPassword,
-    };
-  }
-
-  /**
-   * 获取用户列表
-   */
-  @Get('/list')
-  async list(@Query('page') page: number = 1, @Query('size') size: number = 10) {
+  @Post('/refresh-token')
+  async refreshToken() {
     try {
-      const { list: users, total } = await this.userService.findAll(
-        parseInt(page.toString()),
-        parseInt(size.toString())
-      );
+      // 从请求头获取当前token
+      let token = this.ctx.headers.authorization;
+      if (token && token.startsWith('Bearer ')) {
+        token = token.substring(7);
+      }
 
-      // 不返回密码字段
-      const usersWithoutPassword = users.map(({ password: _, ...rest }) => rest);
-
-      return {
-        code: RESPONSE_CODE.SUCCESS,
-        message: '获取成功',
-        data: {
-          list: usersWithoutPassword,
-          total,
-          page: parseInt(page.toString()),
-          size: parseInt(size.toString()),
-        },
-      };
-    } catch (error: any) {
-      return {
-        code: RESPONSE_CODE.ERROR,
-        message: error?.message || '获取失败',
-      };
-    }
-  }
-
-  /**
-   * 更新用户信息
-   */
-  @Post('/update')
-  async update(@Body() body: any, @Session() session: any) {
-    try {
-      if (!session.userId) {
+      if (!token) {
         return {
           code: RESPONSE_CODE.UNAUTHORIZED,
           message: ERROR_MESSAGES.UNAUTHORIZED,
         };
       }
 
-      const { email, avatar } = body; // 移除 nickname
-      
-      // 如果更新邮箱，检查邮箱是否已存在
-      if (email) {
-        const emailExists = await this.userService.isEmailExists(email, session.userId);
-        if (emailExists) {
-          return {
-            code: RESPONSE_CODE.ERROR,
-            message: '邮箱已被其他用户使用',
-          };
-        }
+      // 验证当前token
+      const decoded = this.userService.verifyToken(token);
+      if (!decoded) {
+        return {
+          code: RESPONSE_CODE.UNAUTHORIZED,
+          message: ERROR_MESSAGES.UNAUTHORIZED,
+        };
       }
 
-      const updatedUser = await this.userService.updateUser(session.userId, {
-        email,
-        avatar,
-        // 不更新 nickname
-      });
+      // 根据用户ID获取最新用户信息
+      const user = await this.userService.findById(decoded.id);
+      if (!user) {
+        return {
+          code: RESPONSE_CODE.UNAUTHORIZED,
+          message: ERROR_MESSAGES.UNAUTHORIZED,
+        };
+      }
 
-      const { password: _, ...userWithoutPassword } = updatedUser;
+      // 生成新token
+      const newToken = this.userService.generateToken(user);
 
       return {
         code: RESPONSE_CODE.SUCCESS,
-        message: '更新成功',
-        data: userWithoutPassword,
+        message: '令牌刷新成功',
+        data: {
+          token: newToken,
+        },
       };
     } catch (error: any) {
+      this.logger.error('刷新令牌失败:', error);
       return {
         code: RESPONSE_CODE.ERROR,
-        message: error?.message || '更新失败',
+        message: '令牌刷新失败',
       };
     }
   }
 
   /**
-   * 检查用户名是否可用
+   * 获取当前用户信息
    */
-  @Get('/check-username')
-  async checkUsername(@Query('username') username: string) {
+  @Get('/profile')
+  async profile() {
     try {
-      if (!username) {
+      // 从请求头获取token
+      let token = this.ctx.headers.authorization;
+      if (token && token.startsWith('Bearer ')) {
+        token = token.substring(7);
+      }
+
+      if (!token) {
         return {
-          code: RESPONSE_CODE.ERROR,
-          message: '用户名不能为空',
+          code: RESPONSE_CODE.UNAUTHORIZED,
+          message: ERROR_MESSAGES.UNAUTHORIZED,
         };
       }
 
-      const exists = await this.userService.isUsernameExists(username);
-      
+      // 验证token
+      const decoded = this.userService.verifyToken(token);
+      if (!decoded) {
+        return {
+          code: RESPONSE_CODE.UNAUTHORIZED,
+          message: ERROR_MESSAGES.UNAUTHORIZED,
+        };
+      }
+
+      // 根据解码后的用户ID获取用户信息
+      const user = await this.userService.findById(decoded.id);
+      if (!user) {
+        return {
+          code: RESPONSE_CODE.ERROR,
+          message: ERROR_MESSAGES.USER_NOT_FOUND,
+        };
+      }
+
+      // 不返回密码字段
+      const { password: _, ...userWithoutPassword } = user;
+
       return {
         code: RESPONSE_CODE.SUCCESS,
-        message: exists ? '用户名已存在' : '用户名可用',
-        data: {
-          available: !exists,
-          exists,
-        },
+        message: '获取成功',
+        data: userWithoutPassword,
       };
     } catch (error: any) {
+      this.logger.error('获取用户信息失败:', error);
       return {
         code: RESPONSE_CODE.ERROR,
-        message: error?.message || '检查失败',
+        message: '获取用户信息失败',
       };
     }
   }

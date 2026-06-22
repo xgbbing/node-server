@@ -40,6 +40,10 @@ export default (appInfo: MidwayAppInfo): MidwayConfig => {
         }
       },
     },
+    jwt: {
+      secret: process.env.JWT_SECRET || 'your-secret-key-change-in-production',
+      expiresIn: process.env.JWT_EXPIRES_IN || '24h',
+    },
     // session: {
     //   key: 'Koa_SESS',
     //   maxAge: 24 * 3600 * 1000, // 1天

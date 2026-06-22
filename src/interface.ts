@@ -1,7 +1,6 @@
 /**
  * 项目接口定义
  */
-// import { IMidwayApplication, IMidwayContext } from '@midwayjs/core';
 import { Application, Context } from '@midwayjs/koa';
 
 // 扩展 Context 接口
@@ -19,23 +18,50 @@ export interface ICustomApplication extends Application { }
 export interface IUser {
   id: number;
   username: string;
+  email?: string;
+  // 移除 nickname 字段
+  avatar?: string;
+  status?: 'active' | 'inactive' | 'banned';
+  createdAt?: Date;
+  lastLoginAt?: Date;
+  extraInfo?: Record<string, any>;
 }
 
-// 分页结果接口
-export interface IPaginatedResult<T> {
-  data: T[];
+// 用户登录凭证接口
+export interface IUserCredentials {
+  username: string;
+  password: string;
+}
+
+// 用户注册信息接口
+export interface IUserRegistration {
+  username: string;
+  password: string;
+  email?: string;
+  // 移除 nickname 字段
+}
+
+// JWT Token载荷接口
+export interface ITokenPayload {
+  id: number;
+  username: string;
+  exp?: number;
+  iat?: number;
+}
+
+// 分页查询结果接口
+export interface IPaginationResult<T> {
+  list: T[];
   total: number;
   page: number;
-  pageSize: number;
-  totalPages: number;
+  size: number;
 }
 
-// 响应结果接口
-export interface IResponse<T = any> {
+// API响应接口
+export interface IApiResponse<T = any> {
   code: number;
   message: string;
   data?: T;
-  timestamp: number;
 }
 
 export interface WeatherInfo {
